@@ -1,0 +1,29 @@
+{
+  "name": "meccha-chameleon-3d",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "build:shared": "npm -w shared run build",
+    "dev": "npm run build:shared && concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm -w server run start",
+    "dev:client": "npm -w client run dev",
+    "build": "npm run build:shared && npm -w client run build && npm -w server run build",
+    "start": "cross-env NODE_ENV=production node server/build/index.js",
+    "postinstall": "npm run build:shared",
+    "test": "node --import tsx --test \"tests/*.test.ts\"",
+    "format": "prettier --write \"**/*.{ts,css,json,md}\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "tsx": "^4.21.0",
+    "@types/node": "^22.0.0",
+    "prettier": "^3.3.0"
+  }
+}
